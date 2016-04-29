@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="JiraTaskTimer.UI.Controls.JiraTaskControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JiraTaskTimer.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="36" d:DesignWidth="517">
+    <Grid>
+        <Button x:Name="RecordButton" Content="Rec" Margin="473,6,0,6" Click="RecordButton_Click" HorizontalAlignment="Left" Width="34"/>
+        <ComboBox x:Name="ProjectMenu" HorizontalAlignment="Left" Margin="9,6,0,6" Width="165" SelectionChanged="OnProjectSelected" />
+        <ComboBox x:Name="IssueMenu" HorizontalAlignment="Left" Margin="179,6,0,6" Width="165" SelectionChanged="OnIssueSelected"/>
+        <Label x:Name="timerLabel" Content="Label" Margin="349,6,0,6" HorizontalAlignment="Left" Width="113" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+    </Grid>
+</UserControl>
