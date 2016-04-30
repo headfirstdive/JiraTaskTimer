@@ -20,7 +20,7 @@ namespace JiraTaskTimer
 
         public void Login(IUser tempUser, LoginCallback callback)
         {
-            var account = new JiraAccount(ResourceProperties.serverUrl, tempUser.Username, tempUser.Password);
+            var account = new JiraAccount(Properties.Settings.Default.jiraurl, tempUser.Username, tempUser.Password);
             jiraClient = new JiraClient(account);
             var mergedCredentials = $"{tempUser.Username}:{tempUser.Password}";
             var byteCredentials = Encoding.UTF8.GetBytes(mergedCredentials);
@@ -30,7 +30,7 @@ namespace JiraTaskTimer
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Set("Authorization", "Basic " + encodedCredentials);
-                webClient.DownloadStringAsync(new Uri(ResourceProperties.serverUrl));
+                webClient.DownloadStringAsync(new Uri(Properties.Settings.Default.jiraurl));
                 webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
             }
         }
@@ -54,8 +54,17 @@ namespace JiraTaskTimer
         private async void OnLoginSuccess()
         {
             List<Project> projects = await Task.Run(() => GetProjectList());
-            GetIssuesByProject(projects);
+            await Task.Run(() => GetIssues(projects));
             OnLoginCallback?.Invoke(LoginStatus.Success);
+        }
+
+
+        public async void UpdateProjectData(Action<List<JTTProjectModel>> callback)
+        {
+            projectData = new List<JTTProjectModel>();
+            List<Project> projects = await Task.Run(() => GetProjectList());
+            await Task.Run(() => GetIssues(projects));
+            callback?.Invoke(projectData);
         }
 
 
@@ -64,19 +73,21 @@ namespace JiraTaskTimer
             return jiraClient.GetProjects();
         }
 
-        //private async Task<List<Project>> GetProjectListAsync()
-        //{
-        //    return await GetProjects();
-        //}
 
-
-        private void GetIssuesByProject(List<Project> projects)
+        private void GetIssues(List<Project> projects)
         {
             foreach (var project in projects)
             {
-                // TODO: use pagination to control the number of issues returned
-                Issues issuesList = jiraClient.GetIssuesByProject(project.key, 0, 100);
-                projectData.Add(new JTTProjectModel(project, issuesList));
+                try
+                {
+                    // TODO: use pagination to control the number of issues returned
+                    Issues issuesList = jiraClient.GetIssuesByProject(project.key, 0, 100);
+                    projectData.Add(new JTTProjectModel(project, issuesList));
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Failed to get the issues");
+                }
             }
         }
 
