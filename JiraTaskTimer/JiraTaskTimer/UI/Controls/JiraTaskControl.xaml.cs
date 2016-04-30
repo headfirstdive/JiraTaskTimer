@@ -22,6 +22,7 @@ namespace JiraTaskTimer.UI.Controls
     /// </summary>
     public partial class JiraTaskControl : UserControl
     {
+        public JTTask taskData { get { return taskItem; } }
 
         private readonly List<JTTProjectModel> projectModels;
         private readonly JTTaskListProvider timerTaskProvider;
@@ -56,6 +57,14 @@ namespace JiraTaskTimer.UI.Controls
         {
             UpdateTimerLabel(0, 0, 0);
         }
+
+
+        public void SetInactive()
+        {
+            timerLabel.Content = "- - -";
+            IsEnabled = false;
+        }
+
 
         /// <summary>
         /// Use the ProjectModels retrieved on startup to set all the options for the ProjectMenu
@@ -97,7 +106,8 @@ namespace JiraTaskTimer.UI.Controls
         /// </summary>
         private void SetSelectedProjectFromCache()
         {
-            var selectedProjectModel = projectModels.First(o => o.project.id == taskItem.projectId);
+            var selectedProjectModel = projectModels.FirstOrDefault(o => o.project.id == taskItem.projectId);
+            if (selectedProjectModel == null) return;
             ProjectMenu.SelectedItem = selectedProjectModel;
             GetIssuesList(selectedProjectModel.project);
         }
@@ -109,7 +119,8 @@ namespace JiraTaskTimer.UI.Controls
         /// <param name="issuesList"></param>
         private void SetSelectedIssueFromCache(Issues issuesList)
         {
-            var selectedIssueFromCache = issuesList.issues.First(o => o.id == taskItem.issueId);
+            var selectedIssueFromCache = issuesList.issues.FirstOrDefault(o => o.id == taskItem.issueId);
+            if (selectedIssueFromCache == null) return;
             IssueMenu.SelectedItem = selectedIssueFromCache;
         }
 

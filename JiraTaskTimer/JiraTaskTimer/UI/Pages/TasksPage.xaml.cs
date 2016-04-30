@@ -1,25 +1,12 @@
-﻿using AnotherJiraRestClient;
-using JiraTaskTimer.Client.Data;
-using JiraTaskTimer.Client.Interface;
+﻿using JiraTaskTimer.Client.Data;
 using JiraTaskTimer.Client.Managers;
 using JiraTaskTimer.Client.Models;
 using JiraTaskTimer.UI.Controls;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Serialization;
+using JiraTaskTimer.Client.Interface;
+using JiraTaskTimer.Client.Jira;
 
 namespace JiraTaskTimer.UI.Pages
 {
@@ -31,12 +18,15 @@ namespace JiraTaskTimer.UI.Pages
         private readonly JTTaskListProvider taskListProvider = new JTTaskListProvider();
         private readonly JTSerializer serializer = new JTSerializer();
         private readonly ProgramManagerProvider programManagerProvider;
+        private readonly JiraServerSync serverSync;
         //TODO Add interface
         private List<JTTProjectModel> projects;
 
         public TasksPage(ProgramManagerProvider programManagerProvider)
         {
             this.programManagerProvider = programManagerProvider;
+            serverSync = new JiraServerSync(programManagerProvider);
+
             InitializeComponent();
 
             GetProjects();
@@ -85,14 +75,13 @@ namespace JiraTaskTimer.UI.Pages
         {
             var task = new JiraTaskControl(projects, taskListProvider, programManagerProvider, taskItem, serializer);
             TasksViewer.Items.Add(task);
+            serverSync.SubscribeTask(task);
         }
 
 
         /// <summary>
         /// On add task clicked, add a task
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void addTask_Click(object sender, RoutedEventArgs e)
         {
             AddItem();

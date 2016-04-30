@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JiraTaskTimer
+namespace JiraTaskTimer.Client.Interface
 {
-    class ResourceProperties
+    public interface IServerSync
     {
-
-        public const string serverUrl = "https://yourapp.atlassian.net";
-
     }
 }

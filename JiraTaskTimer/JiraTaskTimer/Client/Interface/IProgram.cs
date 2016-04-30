@@ -17,5 +17,6 @@ namespace JiraTaskTimer.Client.Interface
         Worklog LogTime(string issueKey, string timeSpentFormatted);
         bool UpdateLogTime(string issueKey, string timeSpentFormatted, string worklogId);
         void GetWorkLogs(string issueKey);
+        void UpdateProjectData(Action<List<JTTProjectModel>>  callback);
     }
 }

@@ -26,13 +26,11 @@ namespace JiraTaskTimer.Client.Data
 
         public void UpdateTaskInList(JTTask task)
         {
-            for (int i = 0; i < timerTasks.taskList.Count; i++)
+            for (var i = 0; i < timerTasks.taskList.Count; i++)
             {
-                if (task.taskId == timerTasks.taskList[i].taskId)
-                {
-                    timerTasks.taskList[i] = task;
-                    break;
-                }
+                if (task.taskId != timerTasks.taskList[i].taskId) continue;
+                timerTasks.taskList[i] = task;
+                break;
             }
         }
 

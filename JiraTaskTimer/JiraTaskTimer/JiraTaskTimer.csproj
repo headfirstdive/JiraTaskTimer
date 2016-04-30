@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Client\Data\DPAPI.cs" />
     <Compile Include="Client\Data\JTTaskList.cs" />
     <Compile Include="Client\Data\JTTaskListProvider.cs" />
     <Compile Include="Client\Data\PageManagerProvider.cs" />
@@ -83,16 +84,17 @@
     <Compile Include="Client\Events\EventHandlers.cs" />
     <Compile Include="Client\Events\Responses.cs" />
     <Compile Include="Client\Interface\IProgram.cs" />
+    <Compile Include="Client\Interface\IServerSync.cs" />
     <Compile Include="Client\Interface\ITimerTask.cs" />
     <Compile Include="Client\Interface\IUser.cs" />
     <Compile Include="Client\Jira\JiraManager.cs" />
+    <Compile Include="Client\Jira\JiraServerSync.cs" />
     <Compile Include="Client\Managers\JTSerializer.cs" />
     <Compile Include="Client\Managers\PageManager.cs" />
     <Compile Include="Client\Models\JTTask.cs" />
     <Compile Include="Client\Models\JTTProjectModel.cs" />
     <Compile Include="Client\Models\User.cs" />
     <Compile Include="Client\Time\JiraStopWatch.cs" />
-    <Compile Include="ResourceProperties.cs" />
     <Compile Include="UI\Controls\JiraTaskControl.xaml.cs">
       <DependentUpon>JiraTaskControl.xaml</DependentUpon>
     </Compile>
@@ -115,10 +117,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\TestUser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Controls\JiraTaskControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -157,6 +155,7 @@
       <Name>AnotherJiraRestClient</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
