@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
+using JiraTaskTimer.Client.Interface;
 
 namespace JiraTaskTimer.Time
 {
-    public class JiraStopWatch
+    public class JiraStopWatch : IJiraStopWatch
     {
         // Interval for updating the worklog for this issue on jira
         private readonly DispatcherTimer serverUpdateTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 1, 0) };

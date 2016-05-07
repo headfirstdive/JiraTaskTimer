@@ -12,12 +12,14 @@
         <Grid>
             <Button x:Name="LoginButton" Content="Submit" Margin="176,216,176,0" VerticalAlignment="Top" Click="LoginButton_Click"/>
             <Grid Margin="10,10,346,10">
-                <Label x:Name="username" Content="username" Margin="82,93,10,0" VerticalAlignment="Top"/>
-                <Label x:Name="password" Content="password" Margin="82,124,10,0" VerticalAlignment="Top"/>
+                <Label x:Name="username" Content="username" Margin="82,109,10,0" VerticalAlignment="Top"/>
+                <Label x:Name="password" Content="password" Margin="82,140,10,0" VerticalAlignment="Top"/>
+                <Label x:Name="username_Copy" Content="jira url" Margin="82,61,10,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid Margin="176,10,10,10">
-                <TextBox x:Name="usernameField" Height="23" Margin="10,93,87,0" TextWrapping="Wrap" Text="username" VerticalAlignment="Top"/>
-                <PasswordBox x:Name="passwordField" Margin="10,121,87,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="usernameField" Height="23" Margin="10,109,87,0" TextWrapping="Wrap" VerticalAlignment="Top" />
+                <PasswordBox x:Name="passwordField" Margin="10,137,87,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="serverField" Height="23" Margin="10,61,87,0" TextWrapping="Wrap" VerticalAlignment="Top" />
             </Grid>
         </Grid>
     </Grid>

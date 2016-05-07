@@ -15,14 +15,14 @@ namespace JiraTaskTimer.UI.Pages
     /// </summary>
     public partial class TasksPage : Page
     {
+        //TODO Add interface
         private readonly JTTaskListProvider taskListProvider = new JTTaskListProvider();
         private readonly JTSerializer serializer = new JTSerializer();
-        private readonly ProgramManagerProvider programManagerProvider;
+        private readonly IProgramManagerProvider programManagerProvider;
         private readonly JiraServerSync serverSync;
-        //TODO Add interface
         private List<JTTProjectModel> projects;
 
-        public TasksPage(ProgramManagerProvider programManagerProvider)
+        public TasksPage(IProgramManagerProvider programManagerProvider)
         {
             this.programManagerProvider = programManagerProvider;
             serverSync = new JiraServerSync(programManagerProvider);

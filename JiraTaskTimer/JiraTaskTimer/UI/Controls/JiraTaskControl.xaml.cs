@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using JiraTaskTimer.Client.Interface;
 using JiraTaskTimer.Time;
 
 namespace JiraTaskTimer.UI.Controls
@@ -24,12 +25,12 @@ namespace JiraTaskTimer.UI.Controls
     {
         public JTTask taskData { get { return taskItem; } }
 
-        private readonly List<JTTProjectModel> projectModels;
+        private List<JTTProjectModel> projectModels;
         private readonly JTTaskListProvider timerTaskProvider;
-        private readonly ProgramManagerProvider programManagerProvider;
+        private readonly IProgramManagerProvider programManagerProvider;
         private readonly JTTask taskItem;
         private readonly JTSerializer taskSerializer;
-        private readonly JiraStopWatch jiraStopWatch = new JiraStopWatch();
+        private readonly IJiraStopWatch jiraStopWatch = new JiraStopWatch();
 
         private RecordingState recording = RecordingState.Idle;
         private Issue selectedIssue;
@@ -37,8 +38,8 @@ namespace JiraTaskTimer.UI.Controls
 
         public JiraTaskControl(
             List<JTTProjectModel> projectModels, 
-            JTTaskListProvider timerTaskProvider, 
-            ProgramManagerProvider programManagerProvider,
+            JTTaskListProvider timerTaskProvider,
+            IProgramManagerProvider programManagerProvider,
             JTTask taskItem, 
             JTSerializer taskSerializer)
         {
@@ -52,6 +53,14 @@ namespace JiraTaskTimer.UI.Controls
             Setup();
             AddProjectsToMenu();
         }
+
+
+        public void UpdateProjectModel(List<JTTProjectModel> models)
+        {
+            projectModels = models;
+            AddProjectsToMenu();
+        }
+
 
         private void Setup()
         {

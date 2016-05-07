@@ -3,11 +3,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using JiraTaskTimer.Client.Events;
-using JiraTaskTimer.Client.Data;
-using System.Security.Cryptography;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using JiraTaskTimer.Client.Interface;
+using JiraTaskTimer.Properties;
 
 namespace JiraTaskTimer.UI.Pages
 {
@@ -16,10 +13,10 @@ namespace JiraTaskTimer.UI.Pages
     /// </summary>
     public partial class LoginPage : Page
     {
-        private readonly ProgramManagerProvider programManagerProvider;
-        private readonly PageManagerProvider pageManagerProvider;
+        private readonly IProgramManagerProvider programManagerProvider;
+        private readonly IPageManagerProvider pageManagerProvider;
 
-        public LoginPage(ProgramManagerProvider programManagerProvider, PageManagerProvider pageManagerProvider)
+        public LoginPage(IProgramManagerProvider programManagerProvider, IPageManagerProvider pageManagerProvider)
         {
             this.programManagerProvider = programManagerProvider;
             this.pageManagerProvider    = pageManagerProvider;
@@ -32,10 +29,11 @@ namespace JiraTaskTimer.UI.Pages
         /// </summary>
         private void InitializeControls()
         {
-            usernameField.Text = Properties.Settings.Default.username;
-            usernameField.Text = Properties.Settings.Default.password != string.Empty 
-                ? DPAPI.Decrypt(Properties.Settings.Default.password) 
-                : Properties.Settings.Default.password;
+            serverField.Text = Settings.Default.jiraurl;
+            usernameField.Text = Settings.Default.username;
+            passwordField.Password = Settings.Default.password != string.Empty 
+                ? DPAPI.Decrypt(Settings.Default.password) 
+                : Settings.Default.password;
         }
 
         /// <summary>
@@ -43,20 +41,20 @@ namespace JiraTaskTimer.UI.Pages
         /// </summary>
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            LoginButton.IsEnabled = false;
-            //TODO add time-out and error functionality
-
+            WaitingForProgress();
             if (string.IsNullOrEmpty(usernameField.Text) 
                 || string.IsNullOrEmpty(passwordField.Password)) return;
             // Call DPAPI to encrypt data with user-specific key.
             var encryptedPassword = DPAPI.Encrypt(DPAPI.KeyType.UserKey,
                 passwordField.Password);
 
-            Properties.Settings.Default.username = usernameField.Text;
-            Properties.Settings.Default.password = encryptedPassword;
+            Settings.Default.jiraurl    = serverField.Text;
+            Settings.Default.username   = usernameField.Text;
+            Settings.Default.password   = encryptedPassword;
+            Settings.Default.Save();
 
             programManagerProvider.GetProgramManager()
-                .Login(new User(usernameField.Text, passwordField.Password), OnUserLoginComplete);
+                .Login(new User(usernameField.Text, passwordField.Password, serverField.Text), OnUserLoginComplete);
         }
 
         /// <summary>
@@ -72,11 +70,31 @@ namespace JiraTaskTimer.UI.Pages
                     pageManagerProvider.GetPageManager().SetPage(taskPage);
                     break;
                 case LoginStatus.Failed:
+                    ReturnControl();
+                    //TODO Add proper error handling
                     Console.WriteLine("Error");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(status), status, null);
             }
+        }
+
+        /// <summary>
+        /// Wait for any process to be complete
+        /// Lock the controls from the user
+        /// </summary>
+        private void WaitingForProgress()
+        {
+            LoginButton.IsEnabled = false;
+            //TODO add time-out and error functionality
+        }
+
+        /// <summary>
+        /// Give the user back control
+        /// </summary>
+        private void ReturnControl()
+        {
+            LoginButton.IsEnabled = true;
         }
     }
 }

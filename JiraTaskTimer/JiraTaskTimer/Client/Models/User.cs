@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace JiraTaskTimer.Client.Models
 {
-    class User : IUser
+    public class User : IUser
     {
+        public string Server { get; }
         public string Username { get; }
         public string Password { get; }
 
-        public User(string username, string password)
+        public User(string username, string password, string server)
         {
             Username = username;
             Password = password;
+            Server = server;
         }
     }
 }
