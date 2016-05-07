@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using JiraTaskTimer.Client.Interface;
 
 namespace JiraTaskTimer.Client.Managers
 {
-    public class PageManager
+    public class PageManager : IPageManager
     {
-        readonly private Frame activeWindowFrame;
-
+        private readonly Frame activeWindowFrame;
         private Page activePage;
 
         public PageManager(Frame targetFrame)
         {
             activeWindowFrame = targetFrame;
         }
-
 
         public void SetPage(Page page)
         {

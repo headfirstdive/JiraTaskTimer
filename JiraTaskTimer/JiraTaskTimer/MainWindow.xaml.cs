@@ -14,8 +14,8 @@ namespace JiraTaskTimer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ProgramManagerProvider programProvider     = new ProgramManagerProvider();
-        private readonly PageManagerProvider pageManagerProvider    = new PageManagerProvider();
+        private readonly IProgramManagerProvider programProvider     = new ProgramManagerProvider();
+        private readonly IPageManagerProvider pageManagerProvider    = new PageManagerProvider();
 
         public MainWindow()
         {

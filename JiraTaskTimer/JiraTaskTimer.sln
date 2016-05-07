@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraTaskTimer", "JiraTaskTi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnotherJiraRestClient", "..\..\..\OpenSource\Contributing\AnotherJiraRestClient\AnotherJiraRestClient.csproj", "{49EB9A11-ED25-412A-9416-C124A0CCFB8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JTT.Test", "JTT.Test\JTT.Test.csproj", "{5BB5FF5D-66A5-4238-BB52-C24615098337}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{49EB9A11-ED25-412A-9416-C124A0CCFB8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{49EB9A11-ED25-412A-9416-C124A0CCFB8F}.Release|x86.ActiveCfg = Release|Any CPU
 		{49EB9A11-ED25-412A-9416-C124A0CCFB8F}.Release|x86.Build.0 = Release|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Debug|x86.Build.0 = Debug|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BB5FF5D-66A5-4238-BB52-C24615098337}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

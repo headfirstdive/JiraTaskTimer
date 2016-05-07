@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace JiraTaskTimer.Client.Data
 {
-    public class ProgramManagerProvider
+    public class ProgramManagerProvider : IProgramManagerProvider
     {
-        private static IProgram programManager = new Program();
+        private readonly IProgram programManager = new Program();
 
         public IProgram GetProgramManager()
         {

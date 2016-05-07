@@ -83,7 +83,10 @@
     <Compile Include="Client\Data\ProgramManagerProvider.cs" />
     <Compile Include="Client\Events\EventHandlers.cs" />
     <Compile Include="Client\Events\Responses.cs" />
+    <Compile Include="Client\Interface\IPageManager.cs" />
+    <Compile Include="Client\Interface\IPageManagerProvider.cs" />
     <Compile Include="Client\Interface\IProgram.cs" />
+    <Compile Include="Client\Interface\IProgramManagerProvider.cs" />
     <Compile Include="Client\Interface\IServerSync.cs" />
     <Compile Include="Client\Interface\ITimerTask.cs" />
     <Compile Include="Client\Interface\IUser.cs" />
@@ -91,9 +94,11 @@
     <Compile Include="Client\Jira\JiraServerSync.cs" />
     <Compile Include="Client\Managers\JTSerializer.cs" />
     <Compile Include="Client\Managers\PageManager.cs" />
+    <Compile Include="Client\Interface\IJTTProjectModel.cs" />
     <Compile Include="Client\Models\JTTask.cs" />
     <Compile Include="Client\Models\JTTProjectModel.cs" />
     <Compile Include="Client\Models\User.cs" />
+    <Compile Include="Client\Interface\IJiraStopWatch.cs" />
     <Compile Include="Client\Time\JiraStopWatch.cs" />
     <Compile Include="UI\Controls\JiraTaskControl.xaml.cs">
       <DependentUpon>JiraTaskControl.xaml</DependentUpon>

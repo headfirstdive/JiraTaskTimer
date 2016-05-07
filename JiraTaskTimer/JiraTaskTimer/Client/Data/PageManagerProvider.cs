@@ -1,24 +1,19 @@
 ﻿using JiraTaskTimer.Client.Managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
+using JiraTaskTimer.Client.Interface;
 
 namespace JiraTaskTimer.Client.Data
 {
-    public class PageManagerProvider
+    public class PageManagerProvider : IPageManagerProvider
     {
-        private static PageManager pageManager;
+        private IPageManager pageManager;
 
-        public PageManager SetPageManager(Frame targetFrame)
+        public void SetPageManager(Frame targetFrame)
         {
             pageManager = new PageManager(targetFrame);
-            return pageManager;
         }
 
-        public PageManager GetPageManager()
+        public IPageManager GetPageManager()
         {
             return pageManager;
         }

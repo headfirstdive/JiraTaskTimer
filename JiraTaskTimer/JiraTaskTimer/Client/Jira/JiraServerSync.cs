@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
 using JiraTaskTimer.Client.Data;
+using JiraTaskTimer.Client.Interface;
 using JiraTaskTimer.Client.Models;
 using JiraTaskTimer.UI.Controls;
 
 namespace JiraTaskTimer.Client.Jira
 {
-    public class JiraServerSync
+    public class JiraServerSync : IServerSync
     {
         private readonly List<JiraTaskControl> activeTaskControls = new List<JiraTaskControl>();
-        private readonly ProgramManagerProvider programManagerProvider;
-        private readonly DispatcherTimer syncIntervalTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
+        private readonly IProgramManagerProvider programManagerProvider;
+        private readonly DispatcherTimer syncIntervalTimer 
+            = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
 
         private List<JTTProjectModel> projectDataCached;
 
-        public JiraServerSync(ProgramManagerProvider programManagerProvider)
+        public JiraServerSync(IProgramManagerProvider programManagerProvider)
         {
             this.programManagerProvider = programManagerProvider;
             Start();
@@ -78,7 +80,35 @@ namespace JiraTaskTimer.Client.Jira
                 .Where(x => projectData
                 .All(o => o.project.id != x.project.id));
             UpdateMismatchedTaskByProjects(mismatchedProjects);
+            UpdateMismatchedTaskByIssue(projectData);
 
+            // TODO only update if project data is different from the cached data
+            foreach (var taskControl in activeTaskControls)
+            {
+                taskControl.UpdateProjectModel(projectData);
+            }
+        }
+
+        /// <summary>
+        /// Find the task controls that have id's in the mismatched projects list
+        /// </summary>
+        private void UpdateMismatchedTaskByProjects(IEnumerable<JTTProjectModel> mismatchedProjects)
+        {
+            foreach (var mismatchedProject in mismatchedProjects)
+            {
+                var matchingTaskControl = activeTaskControls
+                    .FirstOrDefault(x => x.taskData.projectId == mismatchedProject.project.id);
+                matchingTaskControl?.SetInactive();
+            }
+        }
+
+        /// <summary>
+        /// Find any task controls that have issues not in the updated project data
+        /// and make it inactive
+        /// </summary>
+        /// <param name="projectData"></param>
+        private void UpdateMismatchedTaskByIssue(List<JTTProjectModel> projectData)
+        {
             // TODO Clean up messy nested foreach. Use Linq
             // Check to see if any of the task controls have outdated issues
             foreach (var taskControl in activeTaskControls)
@@ -95,21 +125,8 @@ namespace JiraTaskTimer.Client.Jira
                         }
                     }
                 }
-                if(taskIssueMissing) 
+                if (taskIssueMissing)
                     taskControl.SetInactive();
-            }
-        }
-
-        /// <summary>
-        /// Find the task controls that have id's in the mismatched projects list
-        /// </summary>
-        private void UpdateMismatchedTaskByProjects(IEnumerable<JTTProjectModel> mismatchedProjects)
-        {
-            foreach (var mismatchedProject in mismatchedProjects)
-            {
-                var matchingTaskControl = activeTaskControls
-                    .FirstOrDefault(x => x.taskData.projectId == mismatchedProject.project.id);
-                matchingTaskControl?.SetInactive();
             }
         }
     }
